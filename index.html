@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joyn — Find your people. Joyn the moment.</title>
+  <meta name="description"
+    content="A locality-first app for finding real-world activities. Cycling rides, yoga sessions, dinners, treks. Built for the cities you actually live in.">
+  <meta property="og:title" content="Joyn — Find your people. Joyn the moment.">
+  <meta property="og:description"
+    content="A locality-first app for finding real-world activities. Built for the cities you actually live in.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --violet: #7C3AED;
+      --pink: #EC4899;
+      --gradient: linear-gradient(135deg, #7C3AED 0%, #4F46E5 35%, #06B6D4 70%, #EC4899 100%);
+      --gradient-soft: linear-gradient(135deg, #F5F3FF 0%, #FDF2F8 100%);
+      --text: #1F2937;
+      --text-muted: #6B7280;
+      --bg: #FFFFFF;
+      --surface: #F9FAFB;
+      --border: #E5E7EB;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 56px 24px 32px;
+      text-align: center;
+      background: var(--gradient-soft);
+    }
+
+    .hero .logo-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.25);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.125rem);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* MAIN TWO-COLUMN */
+    .main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .main {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
+
+    /* LEFT: process screenshots */
+    .process {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .process h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .process-intro {
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .step-phone {
+      flex: 0 0 180px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(31, 41, 55, 0.12);
+      background: #000;
+      aspect-ratio: 9 / 19.5;
+      position: relative;
+    }
+
+    .step-phone img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    .step-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .step-num {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-align: center;
+      line-height: 28px;
+      margin-bottom: 8px;
+    }
+
+    .step-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+    }
+
+    /* RIGHT: pitch + form */
+    .pitch {
+      position: sticky;
+      top: 24px;
+      border-radius: 28px;
+      padding: 4px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(236, 72, 153, 0.5), rgba(6, 182, 212, 0.5));
+      box-shadow: 0 24px 60px -20px rgba(124, 58, 237, 0.35);
+    }
+
+    @media (max-width: 900px) {
+      .pitch {
+        position: static;
+      }
+    }
+
+    .pitch-inner {
+      background: #fff;
+      border-radius: 24px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pitch-inner::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .pitch h2 {
+      font-size: 1.625rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.25;
+      position: relative;
+    }
+
+    .pitch h2 .accent {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pitch-sub {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .pitch-perks {
+      list-style: none;
+      margin: 0 0 28px 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .pitch-perks li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 0.9375rem;
+      color: var(--text);
+    }
+
+    .pitch-perks li .check {
+      flex: 0 0 22px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* ===== Native waitlist form ===== */
+    .form-wrap {
+      position: relative;
+      border-radius: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, #F5F3FF 0%, #FDF2F8 100%);
+      border: 1px solid rgba(124, 58, 237, 0.15);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .form-wrap::before {
+      content: "30 SEC · JOIN THE WAITLIST";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .waitlist-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label,
+    .field .label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .field .opt {
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .input,
+    .field select {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      color: var(--text);
+      background: #fff;
+      border: 1px solid #D1D5DB;
+      border-radius: 12px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .input::placeholder {
+      color: #9CA3AF;
+    }
+
+    .input:focus,
+    .field select:focus {
+      outline: none;
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    }
+
+    .input-group {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid #D1D5DB;
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .input-group:focus-within {
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    }
+
+    .input-group .prefix {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 14px;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      background: #F9FAFB;
+      border-right: 1px solid #E5E7EB;
+    }
+
+    .input-group .input {
+      flex: 1;
+      border: none;
+      border-radius: 0;
+      box-shadow: none !important;
+    }
+
+    .input-group .input:focus {
+      border: none;
+      box-shadow: none;
+    }
+
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%237C3AED' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    .radio-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .radio-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid #D1D5DB;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .radio-card:hover {
+      border-color: var(--violet);
+    }
+
+    .radio-card input {
+      display: none;
+    }
+
+    .radio-card .marker {
+      flex: 0 0 20px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #D1D5DB;
+      background: #fff;
+      position: relative;
+      transition: border-color 0.15s;
+    }
+
+    .radio-card input:checked~.marker {
+      border-color: var(--violet);
+    }
+
+    .radio-card input:checked~.marker::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gradient);
+    }
+
+    .radio-card input:checked~.radio-text {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .radio-card:has(input:checked) {
+      border-color: var(--violet);
+      background: rgba(124, 58, 237, 0.04);
+    }
+
+    .radio-text {
+      font-size: 0.9375rem;
+      color: var(--text);
+    }
+
+    .btn-submit {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 50px;
+      margin-top: 4px;
+      border: none;
+      border-radius: 12px;
+      background: var(--gradient);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 8px 20px -8px rgba(124, 58, 237, 0.5);
+      transition: transform 0.1s, box-shadow 0.15s, opacity 0.15s;
+    }
+
+    .btn-submit:hover {
+      box-shadow: 0 12px 28px -8px rgba(124, 58, 237, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
+    }
+
+    .btn-submit:disabled::before {
+      display: none;
+    }
+
+    /* Diagonal ice-blue shine sweeping left → right, matched to the 135° gradient angle */
+    .btn-submit::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(115deg,
+          transparent 0%,
+          rgba(186, 230, 253, 0.0) 20%,
+          rgba(186, 230, 253, 0.55) 45%,
+          rgba(224, 242, 254, 0.85) 50%,
+          rgba(186, 230, 253, 0.55) 55%,
+          rgba(186, 230, 253, 0.0) 80%,
+          transparent 100%);
+      transform: skewX(-20deg);
+      animation: btn-shine 3.2s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .btn-submit>.btn-label {
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes btn-shine {
+      0% {
+        left: -75%;
+      }
+
+      55% {
+        left: 125%;
+      }
+
+      100% {
+        left: 125%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn-submit::before {
+        animation: none;
+        left: -75%;
+      }
+    }
+
+    .form-error {
+      font-size: 0.8125rem;
+      color: #DC2626;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .form-error.visible {
+      display: block;
+    }
+
+    /* Success state */
+    .success {
+      text-align: center;
+      padding: 24px 8px;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 12px 28px -8px rgba(124, 58, 237, 0.5);
+    }
+
+    .success h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .success p {
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+      margin-bottom: 18px;
+    }
+
+    .success ul {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+      text-align: left;
+    }
+
+    .success ul li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.875rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .success ul li span.num {
+      flex: 0 0 22px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(124, 58, 237, 0.12);
+      color: var(--violet);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 40px 24px 60px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .footer a {
+      color: var(--violet);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="logo-circle">J</div>
+    <h1>Find your people. Joyn the moment.</h1>
+    <p>Stop scrolling Instagram for that one Saturday cycle ride. Joyn brings real-world activities like yoga, cycling,
+      dining, treks into one feed, organized by the city you actually live in.</p>
+  </section>
+
+  <main class="main">
+
+    <section class="process">
+      <div>
+        <h2>How it works</h2>
+        <p class="process-intro">Discover, join, and show up. All in one place.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-phone"><img src="screenshots/01-home.png"
+            alt="Joyn home feed showing local activities and leaderboard"></div>
+        <div class="step-text">
+          <div class="step-num">1</div>
+          <div class="step-title">See what's happening near you</div>
+          <p class="step-desc">A locality-first feed of yoga, cycling, dining, treks etc within 5 km, your district, or
+            globally.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-phone"><img src="screenshots/02-activities.png" alt="Joyn activities tab with category tiles">
+        </div>
+        <div class="step-text">
+          <div class="step-num">2</div>
+          <div class="step-title">Browse by what you love</div>
+          <p class="step-desc">Filter by category from yoga, cycling, dance, fine dining, treks etc. Set your radius. No
+            more group-hopping.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-phone"><img src="screenshots/03-detail.png"
+            alt="Joyn activity detail with organizer info and join button"></div>
+        <div class="step-text">
+          <div class="step-num">3</div>
+          <div class="step-title">Joyn safely, hold organizers accountable</div>
+          <p class="step-desc">Health-aware join flow, locked group chats per activity, and mandatory ratings after each
+            one.</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="pitch">
+      <div class="pitch-inner">
+        <h2>Would something like this help <span class="accent">you find what's happening nearby?</span></h2>
+        <p class="pitch-sub">We're picking the launch city based on early signups. Tell us where you are! Takes 30
+          seconds.</p>
+        <ul class="pitch-perks">
+          <li><span class="check">✓</span>We'll WhatsApp you when Joyn launches in your city</li>
+          <li><span class="check">✓</span>Your city with the most signups gets the first launch</li>
+          <li><span class="check">✓</span>We won't spam. One message when we go live</li>
+        </ul>
+        <div class="form-wrap">
+          <form class="waitlist-form" id="waitlistForm" novalidate>
+            <div class="field">
+              <label for="f_name">Your name</label>
+              <input class="input" type="text" id="f_name" name="name" required autocomplete="name"
+                placeholder="Your good name here">
+            </div>
+
+            <div class="field">
+              <label for="f_whatsapp">WhatsApp number</label>
+              <div class="input-group">
+                <span class="prefix">+91</span>
+                <input class="input" type="tel" inputmode="numeric" id="f_whatsapp" name="whatsapp" required
+                  pattern="[0-9]{10}" maxlength="10" autocomplete="tel-national" placeholder="9876543210">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f_city">Your city</label>
+              <select id="f_city" name="city" required>
+                <option value="">Select your city</option>
+                <option>Hyderabad</option>
+                <option>Bengaluru</option>
+                <option>Pune</option>
+                <option>Chennai</option>
+                <option>Mumbai</option>
+                <option>Delhi NCR</option>
+                <option>Kolkata</option>
+                <option>Ahmedabad</option>
+                <option>Kochi</option>
+                <option>Chandigarh</option>
+                <option>Jaipur</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <span class="label">You'd mostly…</span>
+              <div class="radio-cards">
+                <label class="radio-card">
+                  <input type="radio" name="mode" value="Join activities others organize" required>
+                  <span class="marker"></span>
+                  <span class="radio-text">Join activities others organize</span>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="mode" value="Organize my own activities too">
+                  <span class="marker"></span>
+                  <span class="radio-text">Organize my own activities too</span>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="mode" value="Both — depends on the day">
+                  <span class="marker"></span>
+                  <span class="radio-text">Both — depends on the day</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f_wish">What activity do you wish existed near you? <span
+                  class="opt">(optional)</span></label>
+              <input class="input" type="text" id="f_wish" name="wish"
+                placeholder="Sunday trail run, dosa breakfast meetup, anything…">
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn"><span class="btn-label">Join the waitlist
+                →</span></button>
+
+            <p class="form-error" id="formError">Something went wrong. Please try again in a moment.</p>
+          </form>
+
+          <div class="success" id="successState" hidden>
+            <div class="success-icon">✓</div>
+            <h3>You're in.</h3>
+            <p>We'll WhatsApp you the moment Joyn launches in your city.</p>
+            <ul>
+              <li><span class="num">1</span>You'll get one Whatsapp when Joyn goes live in your city 🕺🏻💃🏻. No Spam.
+              </li>
+              <li><span class="num">2</span>The city with the most signups gets the first launch. Forward this to one
+                friend who'd love it.</li>
+              <li><span class="num">3</span>Got a specific activity idea? Reply to our WhatsApp once we reach out, we
+                read every one.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <footer class="footer">
+    Built with care by <a href="https://www.linkedin.com/in/poorna-chandrarao/" target="_blank" rel="noopener">Poorna
+      Chandrarao</a> in
+    Hyderabad.<br>
+    <span style="font-size: 0.75rem; opacity: 0.7;">Your details live in our private Google Sheet. We won't share
+      them.</span>
+  </footer>
+
+  <script>
+    // ===== Joyn waitlist submission =====
+    // Replace ENDPOINT with your deployed Apps Script web app URL.
+    const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzzTcSxUVkJoyxzoWFeGzobHqtGt181p0qh1ggQ5y8DeGl98qmcPA3DgSPF5c8zq9bBrw/exec';
+
+    const form = document.getElementById('waitlistForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitLabel = submitBtn.querySelector('.btn-label');
+    const errorEl = document.getElementById('formError');
+    const successEl = document.getElementById('successState');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.classList.remove('visible');
+
+      // Basic validation: HTML5 + custom WhatsApp length check
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const whatsapp = form.elements['whatsapp'].value.trim();
+      if (!/^[0-9]{10}$/.test(whatsapp)) {
+        errorEl.textContent = 'Enter a valid 10-digit WhatsApp number.';
+        errorEl.classList.add('visible');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const originalLabel = submitLabel.textContent;
+      submitLabel.textContent = 'Joining…';
+
+      try {
+        // Apps Script returns a 302 redirect that browsers can't read across
+        // origins, so we use no-cors. The response is opaque but the script
+        // does execute and write to the sheet — this is the standard Apps
+        // Script web-app pattern.
+        const body = new URLSearchParams(new FormData(form));
+        await fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body });
+        form.hidden = true;
+        successEl.hidden = false;
+        successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        errorEl.textContent = 'Something went wrong. Please check your connection and try again.';
+        errorEl.classList.add('visible');
+        submitBtn.disabled = false;
+        submitLabel.textContent = originalLabel;
+      }
+    });
+  </script>
+</body>
+
+</html>
