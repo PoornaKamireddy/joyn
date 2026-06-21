@@ -756,6 +756,12 @@
         </ul>
         <div class="form-wrap">
           <form class="waitlist-form" id="waitlistForm" novalidate>
+            <input type="hidden" name="source" id="f_source">
+            <input type="hidden" name="campaign" id="f_campaign">
+            <input type="hidden" name="medium" id="f_medium">
+            <input type="hidden" name="referrer" id="f_referrer">
+            <input type="hidden" name="landing_url" id="f_landing_url">
+
             <div class="field">
               <label for="f_name">Your name</label>
               <input class="input" type="text" id="f_name" name="name" required autocomplete="name"
@@ -854,13 +860,36 @@
   <script>
     // ===== Joyn waitlist submission =====
     // Replace ENDPOINT with your deployed Apps Script web app URL.
-    const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzzTcSxUVkJoyxzoWFeGzobHqtGt181p0qh1ggQ5y8DeGl98qmcPA3DgSPF5c8zq9bBrw/exec';
+    const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwcCIS_nzkKOfybrhnfYHjyjpsVAFlpoOU2-lk6qwxc44a8843U48aoUDLANsKU3_n7QQ/exec';
 
     const form = document.getElementById('waitlistForm');
     const submitBtn = document.getElementById('submitBtn');
     const submitLabel = submitBtn.querySelector('.btn-label');
     const errorEl = document.getElementById('formError');
     const successEl = document.getElementById('successState');
+
+    // ===== Attribution: tag each signup with where it came from =====
+    // Priority: UTM params > referrer hostname > "direct"
+    (function tagSource() {
+      const params = new URLSearchParams(window.location.search);
+      const utmSource = params.get('utm_source');
+      const utmCampaign = params.get('utm_campaign') || '';
+      const utmMedium = params.get('utm_medium') || '';
+      const ref = document.referrer || '';
+
+      let source = utmSource;
+      if (!source && ref) {
+        try { source = new URL(ref).hostname.replace(/^www\./, ''); }
+        catch (_) { source = 'unknown'; }
+      }
+      if (!source) source = 'direct';
+
+      document.getElementById('f_source').value = source;
+      document.getElementById('f_campaign').value = utmCampaign;
+      document.getElementById('f_medium').value = utmMedium;
+      document.getElementById('f_referrer').value = ref;
+      document.getElementById('f_landing_url').value = window.location.href;
+    })();
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
