@@ -60,9 +60,51 @@
 
     /* HERO */
     .hero {
+      position: relative;
       padding: 56px 24px 32px;
       text-align: center;
       background: var(--gradient-soft);
+    }
+
+    /* Top-left brand mark — small J icon + Joyn wordmark */
+    .brand {
+      position: absolute;
+      top: 18px;
+      left: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      z-index: 5;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    }
+
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 480px) {
+      .brand { top: 14px; left: 18px; gap: 8px; }
+      .brand-mark { width: 28px; height: 28px; font-size: 13px; }
+      .brand-name { font-size: 16px; }
     }
 
     .hero .logo-circle {
@@ -650,6 +692,10 @@
 <body>
 
   <section class="hero">
+    <a href="/" class="brand" aria-label="Joyn home">
+      <span class="brand-mark" aria-hidden="true">J</span>
+      <span class="brand-name">Joyn</span>
+    </a>
     <div class="logo-circle">J</div>
     <h1>Find your people. Joyn the moment.</h1>
     <p>Stop scrolling Instagram for that one Saturday cycle ride. Joyn brings real-world activities like yoga, cycling,
