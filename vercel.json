@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/li",
+      "destination": "/?utm_source=linkedin&utm_medium=social&utm_campaign=launch_post",
+      "permanent": false
+    },
+    {
+      "source": "/wa",
+      "destination": "/?utm_source=whatsapp&utm_medium=messaging&utm_campaign=launch_post",
+      "permanent": false
+    },
+    {
+      "source": "/ig",
+      "destination": "/?utm_source=instagram&utm_medium=social&utm_campaign=launch_post",
+      "permanent": false
+    },
+    {
+      "source": "/tw",
+      "destination": "/?utm_source=twitter&utm_medium=social&utm_campaign=launch_post",
+      "permanent": false
+    }
+  ]
+}
